@@ -1,0 +1,42 @@
+{
+    "outbounds": [
+        {
+            "type": "vless",
+            "tag": "proxy-out",
+            "server": "YOUR_VPS_IP",
+            "server_port": 443,
+            "uuid": "YOUR_UUID"
+        },
+        {
+            "type": "wireguard",
+            "tag": "work-wg",
+            "server": "MIKROTIK_PUBLIC_IP",
+            "server_port": 51820,
+            "local_address": [
+                "10.200.0.2/32"
+            ],
+            "private_key": "YOUR_PHONE_PRIVATE_KEY",
+            "peer_public_key": "MIKROTIK_PUBLIC_KEY"
+        },
+        {
+            "type": "direct",
+            "tag": "direct"
+        }
+    ],
+    "route": {
+        "rules": [
+            {
+                "ip_cidr": [
+                    "172.20.0.0/16",
+                    "192.168.88.0/24"
+                ],
+                "outbound": "work-wg"
+            },
+            {
+                "geoip": "ir",
+                "outbound": "direct"
+            }
+        ],
+        "final": "proxy-out"
+    }
+}
